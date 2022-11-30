@@ -1,0 +1,8 @@
+﻿**/.idea/
+**/elm-stuff/
+**/.vs/
+**/node_modules/
+**/bin/
+**/obj/
+*.DotSettings.user
+.DS_Store
