@@ -9,7 +9,7 @@ class Input {
   }
 
   fromLines() {
-    this.data = this.data.split(/\r?\n/).filter((s) => !!s);
+    this.data = this.data.split(/\r?\n/);
     return this;
   }
 
@@ -18,7 +18,7 @@ class Input {
   }
 
   asIntArray() {
-    return this.data.map((x) => parseInt(x));
+    return this.data.map((x) => Number(x));
   }
 }
 
