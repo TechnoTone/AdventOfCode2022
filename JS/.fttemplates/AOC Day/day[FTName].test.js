@@ -1,5 +1,5 @@
 const { test } = require("@jest/globals");
-const { part1, part2 } = require("./day01");
+const { part1, part2 } = require("./day[FTName]");
 const Input = require("./input");
 const EXAMPLE_INPUT = [];
 
