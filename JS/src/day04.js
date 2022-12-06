@@ -4,9 +4,8 @@ module.exports.part1 = (input) =>
     .filter(([r1, r2]) => contains(r1, r2) || contains(r2, r1)).length;
 
 module.exports.part2 = (input) =>
-  input
-    .map((line) => getRanges(line))
-    .filter(([r1, r2]) => overlaps(r1, r2) || overlaps(r2, r1)).length;
+  input.map((line) => getRanges(line)).filter(([r1, r2]) => overlaps(r1, r2))
+    .length;
 
 const getRanges = (line) =>
   line.split(",").map((range) => range.split("-").map(Number));
