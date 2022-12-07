@@ -36,7 +36,7 @@ readTerminal =
 
 readLine : String -> ( Dict String Int, List String ) -> ( Dict String Int, List String )
 readLine line ( sizes, path ) =
-    case String.split " " line of
+    case String.words line of
         [ "$", "cd", ".." ] ->
             ( sizes, List.drop 1 path )
 
