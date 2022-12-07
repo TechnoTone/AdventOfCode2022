@@ -1,0 +1,12 @@
+{
+  "scripts": {
+    "test": "npx elm-test"
+  },
+  "devDependencies": {
+    "elm-format": "^0.8.5",
+    "elm-test": "^0.19.1-revision10"
+  },
+  "dependencies": {
+    "elm-review": "^2.8.4"
+  }
+}
