@@ -18,5 +18,6 @@ test("Part 2 Example", () => {
 
 test("Part 2", () => {
   const input = new Input(8).fromLines().get();
-  expect(part2(input)).toBeGreaterThan(69165);
+  expect(part2(input)).toBe(474606);
 });
+
