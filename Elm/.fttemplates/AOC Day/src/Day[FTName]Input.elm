@@ -1,11 +1,13 @@
-module Day[FTName]Input exposing (example, input)
+module Day[FTName]Input exposing (..)
 
 
-example : List String
+example : String
 example =
-    [ ]
+    String.trim """
+"""
 
 
-input : List String
+input : String
 input =
-    [ ]
+    String.trim """
+"""
