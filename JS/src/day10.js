@@ -42,7 +42,7 @@ const incrementCycle2 = (amount, { cycle, x, output }) => {
   while (amount--) {
     cycle++;
     const pos = (cycle - 1) % 40;
-    output += pos >= x - 1 && pos < x + 2 ? "#" : ".";
+    output += pos >= x - 1 && pos <= x + 1 ? "#" : ".";
   }
   return { cycle, x, output };
 };
