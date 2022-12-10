@@ -1,9 +1,9 @@
 module Day[FTName]Tests exposing (tests)
 
 import Day[FTName]
-import Day[FTName]Input exposing (example, input)
+import Day[FTName]Input exposing (..)
 import Expect
-import Test exposing (Test, describe, test, skip)
+import Test exposing (Test, describe, test)
 
 
 tests : Test
