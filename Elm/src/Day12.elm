@@ -10,8 +10,8 @@ part1 =
 
 
 part2 : String -> Int
-part2 input =
-    0
+part2 =
+    parseInput >> shortestDescent
 
 
 type alias Map =
@@ -124,3 +124,53 @@ shortestClimb { heightMap, dimensions, startPos, endPos } =
                             (Set.union visited nextStepsSet)
     in
     step [ ( startPos, 0 ) ] (Set.singleton startPos)
+
+
+shortestDescent : Map -> Int
+shortestDescent { heightMap, dimensions, endPos } =
+    let
+        { width, height } =
+            dimensions
+
+        inRange : Int -> Bool
+        inRange pos =
+            pos >= 0 && pos < width * height
+
+        isNotTooLow : Int -> Int -> Bool
+        isNotTooLow currentHeight pos =
+            heightOf pos >= currentHeight - 1
+
+        heightOf : Int -> Int
+        heightOf pos =
+            Dict.get pos heightMap |> Maybe.withDefault 99
+
+        choices : Int -> Set Int -> List Int
+        choices pos visited =
+            [ pos + 1, pos + width, pos - 1, pos - width ]
+                |> List.filter inRange
+                |> List.filter (\p -> not (Set.member p visited))
+                |> List.filter (isNotTooLow (heightOf pos))
+
+        step : List ( Int, Int ) -> Set Int -> Int
+        step queue visited =
+            case queue of
+                [] ->
+                    0
+
+                ( pos, steps ) :: rest ->
+                    let
+                        nextSteps =
+                            choices pos visited
+
+                        nextStepsSet =
+                            Set.fromList nextSteps
+                    in
+                    if nextSteps |> List.any (heightOf >> (==) 97) then
+                        steps + 1
+
+                    else
+                        step
+                            (rest ++ List.map (\n -> ( n, steps + 1 )) nextSteps)
+                            (Set.union visited nextStepsSet)
+    in
+    step [ ( endPos, 0 ) ] (Set.singleton endPos)
