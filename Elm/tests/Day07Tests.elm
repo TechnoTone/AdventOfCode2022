@@ -3,7 +3,7 @@ module Day07Tests exposing (tests)
 import Day07
 import Day07Input exposing (example, input)
 import Expect
-import Test exposing (Test, describe, skip, test)
+import Test exposing (Test, describe, test)
 
 
 tests : Test

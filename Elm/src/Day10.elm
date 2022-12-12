@@ -1,7 +1,5 @@
 module Day10 exposing (part1, part2)
 
-import Bitwise exposing (xor)
-
 
 part1 : String -> Int
 part1 =

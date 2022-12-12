@@ -3,7 +3,7 @@ module Day10Tests exposing (tests)
 import Day10
 import Day10Input exposing (..)
 import Expect
-import Test exposing (Test, describe, only, test)
+import Test exposing (Test, describe, test)
 
 
 tests : Test
