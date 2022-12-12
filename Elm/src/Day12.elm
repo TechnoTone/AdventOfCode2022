@@ -15,15 +15,11 @@ part2 input =
 
 
 type alias Map =
-    { heightMap : Dict Coordinate Int
+    { heightMap : Dict Int Int
     , dimensions : Dimensions
-    , startPos : Coordinate
-    , endPos : Coordinate
+    , startPos : Int
+    , endPos : Int
     }
-
-
-type alias Coordinate =
-    ( Int, Int )
 
 
 type alias Dimensions =
@@ -44,20 +40,13 @@ parseInput =
            )
 
 
-parseHeightMap : List String -> Dict Coordinate Int
+parseHeightMap : List String -> Dict Int Int
 parseHeightMap =
-    List.indexedMap
-        (\y line ->
-            line
-                |> String.replace "S" "a"
-                |> String.replace "E" "z"
-                |> String.toList
-                |> List.indexedMap
-                    (\x s ->
-                        ( ( x, y ), Char.toCode s )
-                    )
-        )
-        >> List.concat
+    String.join ""
+        >> String.replace "S" "a"
+        >> String.replace "E" "z"
+        >> String.toList
+        >> List.indexedMap (\i c -> ( i, Char.toCode c ))
         >> Dict.fromList
 
 
@@ -68,33 +57,23 @@ parseDimensions lines =
         (List.length lines)
 
 
-parseStartPos : List String -> Coordinate
+parseStartPos : List String -> Int
 parseStartPos =
     findCharPos 'S'
 
 
-parseEndPos : List String -> Coordinate
+parseEndPos : List String -> Int
 parseEndPos =
     findCharPos 'E'
 
 
-findCharPos : Char -> List String -> Coordinate
+findCharPos : Char -> List String -> Int
 findCharPos char lines =
-    let
-        fn : ( List Int, Int ) -> Maybe ( Int, Int )
-        fn coord =
-            case coord of
-                ( [ x ], y ) ->
-                    Just ( x, y )
-
-                _ ->
-                    Nothing
-    in
     lines
-        |> List.indexedMap (\y line -> ( String.indexes (String.fromChar char) line, y ))
-        |> List.filterMap fn
+        |> String.join ""
+        |> String.indexes (String.fromChar char)
         |> List.head
-        |> Maybe.withDefault ( 0, 0 )
+        |> Maybe.withDefault 0
 
 
 shortestClimb : Map -> Int
@@ -103,26 +82,26 @@ shortestClimb { heightMap, dimensions, startPos, endPos } =
         { width, height } =
             dimensions
 
-        inRange : Coordinate -> Bool
-        inRange ( x, y ) =
-            x >= 0 && x < width && y >= 0 && y < height
+        inRange : Int -> Bool
+        inRange pos =
+            pos >= 0 && pos < width * height
 
-        isNotTooHigh : Int -> Coordinate -> Bool
+        isNotTooHigh : Int -> Int -> Bool
         isNotTooHigh currentHeight pos =
             heightOf pos <= currentHeight + 1
 
-        heightOf : Coordinate -> Int
-        heightOf coord =
-            Dict.get coord heightMap |> Maybe.withDefault 99
+        heightOf : Int -> Int
+        heightOf pos =
+            Dict.get pos heightMap |> Maybe.withDefault 99
 
-        choices : Coordinate -> Set Coordinate -> List Coordinate
-        choices ( x, y ) visited =
-            [ ( x + 1, y ), ( x - 1, y ), ( x, y + 1 ), ( x, y - 1 ) ]
+        choices : Int -> Set Int -> List Int
+        choices pos visited =
+            [ pos + 1, pos + width, pos - 1, pos - width ]
                 |> List.filter inRange
-                |> List.filter (\pos -> not (Set.member pos visited))
-                |> List.filter (isNotTooHigh (heightOf ( x, y )))
+                |> List.filter (\p -> not (Set.member p visited))
+                |> List.filter (isNotTooHigh (heightOf pos))
 
-        step : List ( Coordinate, Int ) -> Set Coordinate -> Int
+        step : List ( Int, Int ) -> Set Int -> Int
         step queue visited =
             case queue of
                 [] ->
