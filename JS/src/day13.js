@@ -13,8 +13,8 @@ module.exports.part2 = (input) => {
   packets.sort(compare);
 
   return dividers
-    .map((d) => packets.indexOf(d))
-    .reduce((acc, ix) => acc * (ix + 1), 1);
+    .map((d) => packets.indexOf(d) + 1)
+    .reduce((acc, ix) => acc * ix, 1);
 };
 
 const parsePacketList = (input) =>
